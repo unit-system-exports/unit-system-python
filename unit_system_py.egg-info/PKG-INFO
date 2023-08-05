@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: unit-system-py
-Version: 0.8.0
+Version: 0.8.0rc3
 Summary: A simple unit system for python
 Author-email: noasakurajin <dev@noasakurajin.de>
 Project-URL: Homepage, https://github.com/noah1510/unit-system-generator
