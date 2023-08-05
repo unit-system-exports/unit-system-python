@@ -1,6 +1,11 @@
-class time:
 
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+class time:
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -89,6 +94,7 @@ class time:
         float,
         int,
         'time',
+        
     )):
         if isinstance(value, (float, int)):
             return time(self.value / value, self.multiplier, self.offset)
@@ -96,13 +102,14 @@ class time:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
+        
         else:
             raise TypeError(f'Cannot divide time by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
         'speed',
         'acceleration',
         'power',
@@ -110,29 +117,33 @@ class time:
     )):
         if isinstance(value, (float, int)):
             return time(self.value * value, self.multiplier, self.offset)
-
+        
         elif isinstance(value, speed):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return length(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, acceleration):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return speed(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, power):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return energy(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, force):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return momentum(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot multiply time by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'time'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -141,10 +152,13 @@ class time:
         base_value = self.value * self.multiplier + self.offset
         return time(base_value / multiplier - offset, multiplier, offset)
 
-
 class length:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -233,6 +247,7 @@ class length:
         float,
         int,
         'length',
+        
         'speed',
         'time',
     )):
@@ -242,45 +257,50 @@ class length:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
-        elif isinstance(value, speed):
+        
+        elif isinstance(value,speed):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return time(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, time):
+        
+        elif isinstance(value,time):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return speed(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot divide length by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
         'length',
         'force',
     )):
         if isinstance(value, (float, int)):
             return length(self.value * value, self.multiplier, self.offset)
-
+        
         elif isinstance(value, length):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return area(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, force):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return energy(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot multiply length by {type(value)}')
 
+    
+
+    
     def square(self):
         v1 = self.cast_to_values(self.multiplier)
-        return area(v1.value**2, v1.multiplier**2)
+        return area(v1.value ** 2, v1.multiplier ** 2)
+    
 
     def cast_to_other(self, other: 'length'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -289,10 +309,13 @@ class length:
         base_value = self.value * self.multiplier + self.offset
         return length(base_value / multiplier - offset, multiplier, offset)
 
-
 class mass:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -381,6 +404,7 @@ class mass:
         float,
         int,
         'mass',
+        
     )):
         if isinstance(value, (float, int)):
             return mass(self.value / value, self.multiplier, self.offset)
@@ -388,31 +412,36 @@ class mass:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
+        
         else:
             raise TypeError(f'Cannot divide mass by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
         'acceleration',
         'speed',
     )):
         if isinstance(value, (float, int)):
             return mass(self.value * value, self.multiplier, self.offset)
-
+        
         elif isinstance(value, acceleration):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return force(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, speed):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return momentum(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot multiply mass by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'mass'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -421,10 +450,13 @@ class mass:
         base_value = self.value * self.multiplier + self.offset
         return mass(base_value / multiplier - offset, multiplier, offset)
 
-
 class temperature:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -513,6 +545,7 @@ class temperature:
         float,
         int,
         'temperature',
+        
     )):
         if isinstance(value, (float, int)):
             return temperature(self.value / value, self.multiplier, self.offset)
@@ -520,19 +553,24 @@ class temperature:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
+        
         else:
             raise TypeError(f'Cannot divide temperature by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
     )):
         if isinstance(value, (float, int)):
             return temperature(self.value * value, self.multiplier, self.offset)
-
+        
         else:
             raise TypeError(f'Cannot multiply temperature by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'temperature'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -541,10 +579,13 @@ class temperature:
         base_value = self.value * self.multiplier + self.offset
         return temperature(base_value / multiplier - offset, multiplier, offset)
 
-
 class amount:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -633,6 +674,7 @@ class amount:
         float,
         int,
         'amount',
+        
     )):
         if isinstance(value, (float, int)):
             return amount(self.value / value, self.multiplier, self.offset)
@@ -640,19 +682,24 @@ class amount:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
+        
         else:
             raise TypeError(f'Cannot divide amount by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
     )):
         if isinstance(value, (float, int)):
             return amount(self.value * value, self.multiplier, self.offset)
-
+        
         else:
             raise TypeError(f'Cannot multiply amount by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'amount'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -661,10 +708,13 @@ class amount:
         base_value = self.value * self.multiplier + self.offset
         return amount(base_value / multiplier - offset, multiplier, offset)
 
-
 class electric_current:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -753,6 +803,7 @@ class electric_current:
         float,
         int,
         'electric_current',
+        
     )):
         if isinstance(value, (float, int)):
             return electric_current(self.value / value, self.multiplier, self.offset)
@@ -760,19 +811,24 @@ class electric_current:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
+        
         else:
             raise TypeError(f'Cannot divide electric_current by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
     )):
         if isinstance(value, (float, int)):
             return electric_current(self.value * value, self.multiplier, self.offset)
-
+        
         else:
             raise TypeError(f'Cannot multiply electric_current by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'electric_current'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -781,10 +837,13 @@ class electric_current:
         base_value = self.value * self.multiplier + self.offset
         return electric_current(base_value / multiplier - offset, multiplier, offset)
 
-
 class luminous_intensity:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -873,6 +932,7 @@ class luminous_intensity:
         float,
         int,
         'luminous_intensity',
+        
     )):
         if isinstance(value, (float, int)):
             return luminous_intensity(self.value / value, self.multiplier, self.offset)
@@ -880,19 +940,24 @@ class luminous_intensity:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
+        
         else:
             raise TypeError(f'Cannot divide luminous_intensity by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
     )):
         if isinstance(value, (float, int)):
             return luminous_intensity(self.value * value, self.multiplier, self.offset)
-
+        
         else:
             raise TypeError(f'Cannot multiply luminous_intensity by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'luminous_intensity'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -901,10 +966,13 @@ class luminous_intensity:
         base_value = self.value * self.multiplier + self.offset
         return luminous_intensity(base_value / multiplier - offset, multiplier, offset)
 
-
 class energy:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -993,6 +1061,7 @@ class energy:
         float,
         int,
         'energy',
+        
         'force',
         'length',
         'power',
@@ -1006,49 +1075,54 @@ class energy:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
-        elif isinstance(value, force):
+        
+        elif isinstance(value,force):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return length(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, length):
+        
+        elif isinstance(value,length):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return force(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, power):
+        
+        elif isinstance(value,power):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return time(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, time):
+        
+        elif isinstance(value,time):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return power(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, momentum):
+        
+        elif isinstance(value,momentum):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return speed(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, speed):
+        
+        elif isinstance(value,speed):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return momentum(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot divide energy by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
     )):
         if isinstance(value, (float, int)):
             return energy(self.value * value, self.multiplier, self.offset)
-
+        
         else:
             raise TypeError(f'Cannot multiply energy by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'energy'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -1057,10 +1131,13 @@ class energy:
         base_value = self.value * self.multiplier + self.offset
         return energy(base_value / multiplier - offset, multiplier, offset)
 
-
 class power:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -1149,6 +1226,7 @@ class power:
         float,
         int,
         'power',
+        
         'force',
         'speed',
     )):
@@ -1158,35 +1236,40 @@ class power:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
-        elif isinstance(value, force):
+        
+        elif isinstance(value,force):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return speed(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, speed):
+        
+        elif isinstance(value,speed):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return force(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot divide power by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
         'time',
     )):
         if isinstance(value, (float, int)):
             return power(self.value * value, self.multiplier, self.offset)
-
+        
         elif isinstance(value, time):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return energy(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot multiply power by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'power'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -1195,10 +1278,13 @@ class power:
         base_value = self.value * self.multiplier + self.offset
         return power(base_value / multiplier - offset, multiplier, offset)
 
-
 class speed:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -1287,6 +1373,7 @@ class speed:
         float,
         int,
         'speed',
+        
         'acceleration',
         'time',
     )):
@@ -1296,23 +1383,24 @@ class speed:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
-        elif isinstance(value, acceleration):
+        
+        elif isinstance(value,acceleration):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return time(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, time):
+        
+        elif isinstance(value,time):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return acceleration(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot divide speed by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
         'time',
         'momentum',
         'mass',
@@ -1320,29 +1408,33 @@ class speed:
     )):
         if isinstance(value, (float, int)):
             return speed(self.value * value, self.multiplier, self.offset)
-
+        
         elif isinstance(value, time):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return length(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, momentum):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return energy(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, mass):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return momentum(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, force):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return power(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot multiply speed by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'speed'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -1351,10 +1443,13 @@ class speed:
         base_value = self.value * self.multiplier + self.offset
         return speed(base_value / multiplier - offset, multiplier, offset)
 
-
 class acceleration:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -1443,6 +1538,7 @@ class acceleration:
         float,
         int,
         'acceleration',
+        
     )):
         if isinstance(value, (float, int)):
             return acceleration(self.value / value, self.multiplier, self.offset)
@@ -1450,31 +1546,36 @@ class acceleration:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
+        
         else:
             raise TypeError(f'Cannot divide acceleration by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
         'time',
         'mass',
     )):
         if isinstance(value, (float, int)):
             return acceleration(self.value * value, self.multiplier, self.offset)
-
+        
         elif isinstance(value, time):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return speed(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, mass):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return force(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot multiply acceleration by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'acceleration'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -1483,10 +1584,13 @@ class acceleration:
         base_value = self.value * self.multiplier + self.offset
         return acceleration(base_value / multiplier - offset, multiplier, offset)
 
-
 class area:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -1575,6 +1679,7 @@ class area:
         float,
         int,
         'area',
+        
         'length',
     )):
         if isinstance(value, (float, int)):
@@ -1583,28 +1688,33 @@ class area:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
-        elif isinstance(value, length):
+        
+        elif isinstance(value,length):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return length(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot divide area by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
     )):
         if isinstance(value, (float, int)):
             return area(self.value * value, self.multiplier, self.offset)
-
+        
         else:
             raise TypeError(f'Cannot multiply area by {type(value)}')
 
+    
     def sqrt(self):
         v1 = self.cast_to_values(self.multiplier)
-        return length(v1.value**0.5, v1.multiplier**0.5)
+        return length(v1.value ** 0.5, v1.multiplier ** 0.5)
+    
+
+    
 
     def cast_to_other(self, other: 'area'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -1613,10 +1723,13 @@ class area:
         base_value = self.value * self.multiplier + self.offset
         return area(base_value / multiplier - offset, multiplier, offset)
 
-
 class force:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -1705,6 +1818,7 @@ class force:
         float,
         int,
         'force',
+        
         'mass',
         'acceleration',
     )):
@@ -1714,47 +1828,52 @@ class force:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
-        elif isinstance(value, mass):
+        
+        elif isinstance(value,mass):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return acceleration(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, acceleration):
+        
+        elif isinstance(value,acceleration):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return mass(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot divide force by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
         'length',
         'time',
         'speed',
     )):
         if isinstance(value, (float, int)):
             return force(self.value * value, self.multiplier, self.offset)
-
+        
         elif isinstance(value, length):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return energy(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, time):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return momentum(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         elif isinstance(value, speed):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return power(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot multiply force by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'force'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -1763,10 +1882,13 @@ class force:
         base_value = self.value * self.multiplier + self.offset
         return force(base_value / multiplier - offset, multiplier, offset)
 
-
 class momentum:
-
-    def __init__(self, value=0.0, multiplier=1.0, offset=0.0):
+    def __init__(
+        self,
+        value=0.0,
+        multiplier=1.0,
+        offset=0.0
+    ):
         self.value = float(value)
         self.multiplier = float(multiplier)
         self.offset = float(offset)
@@ -1855,6 +1977,7 @@ class momentum:
         float,
         int,
         'momentum',
+        
         'force',
         'time',
         'mass',
@@ -1866,45 +1989,50 @@ class momentum:
             v1 = self.cast_to_values()
             v2 = value.cast_to_values()
             return v1.value / v2.value
-
-        elif isinstance(value, force):
+        
+        elif isinstance(value,force):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return time(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, time):
+        
+        elif isinstance(value,time):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return force(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, mass):
+        
+        elif isinstance(value,mass):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return speed(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
-        elif isinstance(value, speed):
+        
+        elif isinstance(value,speed):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return mass(v1.value / v2.value, v1.multiplier / v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot divide momentum by {type(value)}')
 
     def __mul__(self, value: (
         float,
         int,
+        
         'speed',
     )):
         if isinstance(value, (float, int)):
             return momentum(self.value * value, self.multiplier, self.offset)
-
+        
         elif isinstance(value, speed):
             v1 = self.cast_to_values(self.multiplier)
             v2 = value.cast_to_values(value.multiplier)
             return energy(v1.value * v2.value, v1.multiplier * v2.multiplier)
-
+        
         else:
             raise TypeError(f'Cannot multiply momentum by {type(value)}')
+
+    
+
+    
 
     def cast_to_other(self, other: 'momentum'):
         return self.cast_to_values(other.multiplier, other.offset)
@@ -1916,698 +2044,729 @@ class momentum:
 
 class literals:
 
+
     @staticmethod
-    def a(val: (float, int)) -> 'time':
+    def a(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 31536000000.0, 0.0)
 
     @staticmethod
-    def d(val: (float, int)) -> 'time':
+    def d(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 86400000.0, 0.0)
 
     @staticmethod
-    def h(val: (float, int)) -> 'time':
+    def h(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 3600.0, 0.0)
 
     @staticmethod
-    def min(val: (float, int)) -> 'time':
+    def min(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 60.0, 0.0)
 
     @staticmethod
-    def s(val: (float, int)) -> 'time':
+    def s(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 1.0, 0.0)
 
     @staticmethod
-    def ms(val: (float, int)) -> 'time':
+    def ms(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 0.001, 0.0)
 
     @staticmethod
-    def us(val: (float, int)) -> 'time':
+    def us(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 1e-06, 0.0)
 
     @staticmethod
-    def ns(val: (float, int)) -> 'time':
+    def ns(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 1e-09, 0.0)
 
     @staticmethod
-    def ps(val: (float, int)) -> 'time':
+    def ps(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 1e-12, 0.0)
 
     @staticmethod
-    def fs(val: (float, int)) -> 'time':
+    def fs(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 1e-15, 0.0)
 
     @staticmethod
-    def as_(val: (float, int)) -> 'time':
+    def as_(val: (float,int)) -> 'time':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return time(val, 1e-18, 0.0)
 
+
+
     @staticmethod
-    def m(val: (float, int)) -> 'length':
+    def m(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 1.0, 0.0)
 
     @staticmethod
-    def km(val: (float, int)) -> 'length':
+    def km(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 1000.0, 0.0)
 
     @staticmethod
-    def dm(val: (float, int)) -> 'length':
+    def dm(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 0.1, 0.0)
 
     @staticmethod
-    def cm(val: (float, int)) -> 'length':
+    def cm(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 0.01, 0.0)
 
     @staticmethod
-    def mm(val: (float, int)) -> 'length':
+    def mm(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 0.001, 0.0)
 
     @staticmethod
-    def um(val: (float, int)) -> 'length':
+    def um(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 1e-06, 0.0)
 
     @staticmethod
-    def nm(val: (float, int)) -> 'length':
+    def nm(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 1e-09, 0.0)
 
     @staticmethod
-    def pm(val: (float, int)) -> 'length':
+    def pm(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 1e-12, 0.0)
 
     @staticmethod
-    def fm(val: (float, int)) -> 'length':
+    def fm(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 1e-15, 0.0)
 
     @staticmethod
-    def am(val: (float, int)) -> 'length':
+    def am(val: (float,int)) -> 'length':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return length(val, 1e-18, 0.0)
 
+
+
     @staticmethod
-    def t(val: (float, int)) -> 'mass':
+    def t(val: (float,int)) -> 'mass':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return mass(val, 1000.0, 0.0)
 
     @staticmethod
-    def kg(val: (float, int)) -> 'mass':
+    def kg(val: (float,int)) -> 'mass':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return mass(val, 1.0, 0.0)
 
     @staticmethod
-    def g(val: (float, int)) -> 'mass':
+    def g(val: (float,int)) -> 'mass':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return mass(val, 0.001, 0.0)
 
     @staticmethod
-    def mg(val: (float, int)) -> 'mass':
+    def mg(val: (float,int)) -> 'mass':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return mass(val, 1e-06, 0.0)
 
     @staticmethod
-    def ug(val: (float, int)) -> 'mass':
+    def ug(val: (float,int)) -> 'mass':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return mass(val, 1e-09, 0.0)
 
     @staticmethod
-    def ng(val: (float, int)) -> 'mass':
+    def ng(val: (float,int)) -> 'mass':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return mass(val, 1.0000000000000002e-12, 0.0)
 
     @staticmethod
-    def pg(val: (float, int)) -> 'mass':
+    def pg(val: (float,int)) -> 'mass':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return mass(val, 1e-15, 0.0)
 
     @staticmethod
-    def fg(val: (float, int)) -> 'mass':
+    def fg(val: (float,int)) -> 'mass':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return mass(val, 1e-18, 0.0)
 
     @staticmethod
-    def ag(val: (float, int)) -> 'mass':
+    def ag(val: (float,int)) -> 'mass':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return mass(val, 1.0000000000000001e-21, 0.0)
 
+
+
     @staticmethod
-    def K(val: (float, int)) -> 'temperature':
+    def K(val: (float,int)) -> 'temperature':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return temperature(val, 1.0, 0.0)
 
     @staticmethod
-    def C(val: (float, int)) -> 'temperature':
+    def C(val: (float,int)) -> 'temperature':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return temperature(val, 1.0, 273.15)
 
+
+
     @staticmethod
-    def mol(val: (float, int)) -> 'amount':
+    def mol(val: (float,int)) -> 'amount':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return amount(val, 6.02214076e+23, 0.0)
 
     @staticmethod
-    def things(val: (float, int)) -> 'amount':
+    def things(val: (float,int)) -> 'amount':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return amount(val, 1.0, 0.0)
 
+
+
     @staticmethod
-    def A(val: (float, int)) -> 'electric_current':
+    def A(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1.0, 0.0)
 
     @staticmethod
-    def PA(val: (float, int)) -> 'electric_current':
+    def PA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1000000000000000.0, 0.0)
 
     @staticmethod
-    def TA(val: (float, int)) -> 'electric_current':
+    def TA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1000000000000.0, 0.0)
 
     @staticmethod
-    def GA(val: (float, int)) -> 'electric_current':
+    def GA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1000000000.0, 0.0)
 
     @staticmethod
-    def MA(val: (float, int)) -> 'electric_current':
+    def MA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1000000.0, 0.0)
 
     @staticmethod
-    def kA(val: (float, int)) -> 'electric_current':
+    def kA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1000.0, 0.0)
 
     @staticmethod
-    def mA(val: (float, int)) -> 'electric_current':
+    def mA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 0.001, 0.0)
 
     @staticmethod
-    def uA(val: (float, int)) -> 'electric_current':
+    def uA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1e-06, 0.0)
 
     @staticmethod
-    def nA(val: (float, int)) -> 'electric_current':
+    def nA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1e-09, 0.0)
 
     @staticmethod
-    def pA(val: (float, int)) -> 'electric_current':
+    def pA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1e-12, 0.0)
 
     @staticmethod
-    def fA(val: (float, int)) -> 'electric_current':
+    def fA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1e-15, 0.0)
 
     @staticmethod
-    def aA(val: (float, int)) -> 'electric_current':
+    def aA(val: (float,int)) -> 'electric_current':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return electric_current(val, 1e-18, 0.0)
 
+
+
     @staticmethod
-    def cd(val: (float, int)) -> 'luminous_intensity':
+    def cd(val: (float,int)) -> 'luminous_intensity':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return luminous_intensity(val, 1.0, 0.0)
 
+
+
     @staticmethod
-    def J(val: (float, int)) -> 'energy':
+    def J(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.0, 0.0)
 
     @staticmethod
-    def Nm(val: (float, int)) -> 'energy':
+    def Nm(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.0, 0.0)
 
     @staticmethod
-    def eV(val: (float, int)) -> 'energy':
+    def eV(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.602176634e-19, 0.0)
 
     @staticmethod
-    def Wh(val: (float, int)) -> 'energy':
+    def Wh(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 3600.0, 0.0)
 
     @staticmethod
-    def Ws(val: (float, int)) -> 'energy':
+    def Ws(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.0, 0.0)
 
     @staticmethod
-    def PJ(val: (float, int)) -> 'energy':
+    def PJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1000000000000000.0, 0.0)
 
     @staticmethod
-    def TJ(val: (float, int)) -> 'energy':
+    def TJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1000000000000.0, 0.0)
 
     @staticmethod
-    def GJ(val: (float, int)) -> 'energy':
+    def GJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1000000000.0, 0.0)
 
     @staticmethod
-    def MJ(val: (float, int)) -> 'energy':
+    def MJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1000000.0, 0.0)
 
     @staticmethod
-    def kJ(val: (float, int)) -> 'energy':
+    def kJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1000.0, 0.0)
 
     @staticmethod
-    def mJ(val: (float, int)) -> 'energy':
+    def mJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 0.001, 0.0)
 
     @staticmethod
-    def uJ(val: (float, int)) -> 'energy':
+    def uJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1e-06, 0.0)
 
     @staticmethod
-    def nJ(val: (float, int)) -> 'energy':
+    def nJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1e-09, 0.0)
 
     @staticmethod
-    def pJ(val: (float, int)) -> 'energy':
+    def pJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1e-12, 0.0)
 
     @staticmethod
-    def fJ(val: (float, int)) -> 'energy':
+    def fJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1e-15, 0.0)
 
     @staticmethod
-    def aJ(val: (float, int)) -> 'energy':
+    def aJ(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1e-18, 0.0)
 
     @staticmethod
-    def GNm(val: (float, int)) -> 'energy':
+    def GNm(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1000000000.0, 0.0)
 
     @staticmethod
-    def MNm(val: (float, int)) -> 'energy':
+    def MNm(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1000000.0, 0.0)
 
     @staticmethod
-    def kNm(val: (float, int)) -> 'energy':
+    def kNm(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1000.0, 0.0)
 
     @staticmethod
-    def mNm(val: (float, int)) -> 'energy':
+    def mNm(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 0.001, 0.0)
 
     @staticmethod
-    def uNm(val: (float, int)) -> 'energy':
+    def uNm(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1e-06, 0.0)
 
     @staticmethod
-    def PeV(val: (float, int)) -> 'energy':
+    def PeV(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 0.0001602176634, 0.0)
 
     @staticmethod
-    def TeV(val: (float, int)) -> 'energy':
+    def TeV(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.602176634e-07, 0.0)
 
     @staticmethod
-    def GeV(val: (float, int)) -> 'energy':
+    def GeV(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.6021766339999998e-10, 0.0)
 
     @staticmethod
-    def MeV(val: (float, int)) -> 'energy':
+    def MeV(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.6021766339999998e-13, 0.0)
 
     @staticmethod
-    def keV(val: (float, int)) -> 'energy':
+    def keV(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.602176634e-16, 0.0)
 
     @staticmethod
-    def meV(val: (float, int)) -> 'energy':
+    def meV(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.6021766339999998e-22, 0.0)
 
     @staticmethod
-    def ueV(val: (float, int)) -> 'energy':
+    def ueV(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 1.602176634e-25, 0.0)
 
     @staticmethod
-    def PWh(val: (float, int)) -> 'energy':
+    def PWh(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 3.6e+18, 0.0)
 
     @staticmethod
-    def TWh(val: (float, int)) -> 'energy':
+    def TWh(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 3600000000000000.0, 0.0)
 
     @staticmethod
-    def GWh(val: (float, int)) -> 'energy':
+    def GWh(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 3600000000000.0, 0.0)
 
     @staticmethod
-    def MWh(val: (float, int)) -> 'energy':
+    def MWh(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 3600000000.0, 0.0)
 
     @staticmethod
-    def kWh(val: (float, int)) -> 'energy':
+    def kWh(val: (float,int)) -> 'energy':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return energy(val, 3600000.0, 0.0)
 
+
+
     @staticmethod
-    def W(val: (float, int)) -> 'power':
+    def W(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1.0, 0.0)
 
     @staticmethod
-    def PW(val: (float, int)) -> 'power':
+    def PW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1000000000000000.0, 0.0)
 
     @staticmethod
-    def TW(val: (float, int)) -> 'power':
+    def TW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1000000000000.0, 0.0)
 
     @staticmethod
-    def GW(val: (float, int)) -> 'power':
+    def GW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1000000000.0, 0.0)
 
     @staticmethod
-    def MW(val: (float, int)) -> 'power':
+    def MW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1000000.0, 0.0)
 
     @staticmethod
-    def kW(val: (float, int)) -> 'power':
+    def kW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1000.0, 0.0)
 
     @staticmethod
-    def mW(val: (float, int)) -> 'power':
+    def mW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 0.001, 0.0)
 
     @staticmethod
-    def uW(val: (float, int)) -> 'power':
+    def uW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1e-06, 0.0)
 
     @staticmethod
-    def nW(val: (float, int)) -> 'power':
+    def nW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1e-09, 0.0)
 
     @staticmethod
-    def pW(val: (float, int)) -> 'power':
+    def pW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1e-12, 0.0)
 
     @staticmethod
-    def fW(val: (float, int)) -> 'power':
+    def fW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1e-15, 0.0)
 
     @staticmethod
-    def aW(val: (float, int)) -> 'power':
+    def aW(val: (float,int)) -> 'power':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return power(val, 1e-18, 0.0)
 
+
+
     @staticmethod
-    def mps(val: (float, int)) -> 'speed':
+    def mps(val: (float,int)) -> 'speed':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return speed(val, 1.0, 0.0)
 
     @staticmethod
-    def kmph(val: (float, int)) -> 'speed':
+    def kmph(val: (float,int)) -> 'speed':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return speed(val, 0.2777777777777778, 0.0)
 
+
+
     @staticmethod
-    def mps2(val: (float, int)) -> 'acceleration':
+    def mps2(val: (float,int)) -> 'acceleration':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return acceleration(val, 1.0, 0.0)
 
     @staticmethod
-    def G(val: (float, int)) -> 'acceleration':
+    def G(val: (float,int)) -> 'acceleration':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return acceleration(val, 9.80665, 0.0)
 
+
+
     @staticmethod
-    def m2(val: (float, int)) -> 'area':
+    def m2(val: (float,int)) -> 'area':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return area(val, 1.0, 0.0)
 
     @staticmethod
-    def are(val: (float, int)) -> 'area':
+    def are(val: (float,int)) -> 'area':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return area(val, 100.0, 0.0)
 
     @staticmethod
-    def hectare(val: (float, int)) -> 'area':
+    def hectare(val: (float,int)) -> 'area':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return area(val, 10000.0, 0.0)
 
     @staticmethod
-    def km2(val: (float, int)) -> 'area':
+    def km2(val: (float,int)) -> 'area':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return area(val, 1000000.0, 0.0)
 
     @staticmethod
-    def mm2(val: (float, int)) -> 'area':
+    def mm2(val: (float,int)) -> 'area':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return area(val, 1e-06, 0.0)
 
     @staticmethod
-    def um2(val: (float, int)) -> 'area':
+    def um2(val: (float,int)) -> 'area':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return area(val, 1e-12, 0.0)
 
     @staticmethod
-    def nm2(val: (float, int)) -> 'area':
+    def nm2(val: (float,int)) -> 'area':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return area(val, 1e-18, 0.0)
 
+
+
     @staticmethod
-    def N(val: (float, int)) -> 'force':
+    def N(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1.0, 0.0)
 
     @staticmethod
-    def PN(val: (float, int)) -> 'force':
+    def PN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1000000000000000.0, 0.0)
 
     @staticmethod
-    def TN(val: (float, int)) -> 'force':
+    def TN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1000000000000.0, 0.0)
 
     @staticmethod
-    def GN(val: (float, int)) -> 'force':
+    def GN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1000000000.0, 0.0)
 
     @staticmethod
-    def MN(val: (float, int)) -> 'force':
+    def MN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1000000.0, 0.0)
 
     @staticmethod
-    def kN(val: (float, int)) -> 'force':
+    def kN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1000.0, 0.0)
 
     @staticmethod
-    def mN(val: (float, int)) -> 'force':
+    def mN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 0.001, 0.0)
 
     @staticmethod
-    def uN(val: (float, int)) -> 'force':
+    def uN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1e-06, 0.0)
 
     @staticmethod
-    def nN(val: (float, int)) -> 'force':
+    def nN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1e-09, 0.0)
 
     @staticmethod
-    def pN(val: (float, int)) -> 'force':
+    def pN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1e-12, 0.0)
 
     @staticmethod
-    def fN(val: (float, int)) -> 'force':
+    def fN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1e-15, 0.0)
 
     @staticmethod
-    def aN(val: (float, int)) -> 'force':
+    def aN(val: (float,int)) -> 'force':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return force(val, 1e-18, 0.0)
 
+
+
     @staticmethod
-    def kgmps(val: (float, int)) -> 'momentum':
+    def kgmps(val: (float,int)) -> 'momentum':
         if not isinstance(val, (int, float)):
             raise TypeError("val must be a number")
         return momentum(val, 1.0, 0.0)
+
+
+
+    
