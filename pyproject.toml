@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "unit_system_py"
-version = "0.8.0"
+version = "0.8.0-rc8"
 authors = [
   { name="noasakurajin", email="dev@noasakurajin.de" },
 ]
